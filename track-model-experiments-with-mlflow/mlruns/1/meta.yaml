@@ -1,0 +1,4 @@
+artifact_location: file:///D:/tmp/blog/track-model-experiments-with-mlflow/mlruns/1
+experiment_id: '1'
+lifecycle_stage: active
+name: prod_alpha_xgb_3
