@@ -214,7 +214,7 @@ class Attention(tf.keras.layers.Layer):
     depth = (self.hidden_size // self.num_heads)
     query *= depth ** -0.5
 
-    # calculate logits  [batch_size, num_heads, length, length]
+    # calculate logits  [batch_size, num_heads, length_query, length_key]
     logits = tf.einsum('BTNH,BFNH->BNFT', key, query)
     logits += bias
 
