@@ -111,5 +111,7 @@ dmypy.json
 
 
 **/data/
-
+**/models/
+**/*.pem
+**/.DS_Store
 

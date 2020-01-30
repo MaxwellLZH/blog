@@ -1,0 +1,9 @@
+tensorflow>=2.0.0
+fastapi[all]
+transformers
+
+
+
+
+python-multipart
+tensorflow_hub
