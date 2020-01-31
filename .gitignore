@@ -114,4 +114,4 @@ dmypy.json
 **/models/
 **/*.pem
 **/.DS_Store
-
+vocab-bot/data/
