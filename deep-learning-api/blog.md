@@ -48,8 +48,7 @@ IdentityFile /Users/Max/Documents/Projects/blog/deep-learning-api/deeplearningse
 Windows系统怎么使用密钥请参考（https://help.aliyun.com/document_detail/51798.html?spm=a2c4g.11186623.2.12.7bc1388dSUrc0f#concept-ucj-wrx-wdb）
 
 
-怎么将本地代码传到服务器上？
-scp -F ~/.ssh/config -r ./dls dls:/root
+怎么将本地代码传到服务器上
 
 
 

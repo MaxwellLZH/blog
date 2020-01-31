@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+	{% raw %}
+	<h1 id='app'>{{ message }}</h1>
+
+	{% endraw %}
+{% endblock %}
+
+
+{% block headerbottom %}
+<script src="{{url_for('static', filename='index.js')}}"></script>
+{% endblock %}
