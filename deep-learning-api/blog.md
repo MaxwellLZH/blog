@@ -65,7 +65,7 @@ sudo apt install tree
 
 
 1. 安装anaconda
-
+	
 打开anaconda的网站（https://www.anaconda.com/distribution/）选择**Linux**，之后右键Python3.7版本下的**64-Bit(x86)Installer**，复制链接地址
 
 随后在terminal中使用curl -O [链接]来下载文件，此处-O是使本地文件名和anaonda服务器上的文件名保持一致。
