@@ -6,6 +6,7 @@ import io
 
 import sentiment_analysis_plain_lstm
 import object_detection
+from cat import get_random_cat_image
 
 
 
@@ -22,6 +23,12 @@ app = FastAPI()
 @app.get('/health')
 def health_check():
 	return HTMLResponse("<h1>Hello world!</h1>")
+
+
+@app.get('/cat')
+def cat():
+	img = get_random_cat_image()
+	return StreamingResponse(save_pil_image_to_bytes(img), media_type="image/png")
 
 
 @app.get('/joke')

@@ -48,8 +48,8 @@ IdentityFile /Users/Max/Documents/Projects/blog/deep-learning-api/deeplearningse
 Windows系统怎么使用密钥请参考（https://help.aliyun.com/document_detail/51798.html?spm=a2c4g.11186623.2.12.7bc1388dSUrc0f#concept-ucj-wrx-wdb）
 
 
-怎么将本地代码传到服务器上
-
+怎么将本地代码传到服务器上？
+scp -F ~/.ssh/config -r ./dls dls:/root
 
 
 tree ./dls
@@ -65,7 +65,7 @@ sudo apt install tree
 
 
 1. 安装anaconda
-	
+
 打开anaconda的网站（https://www.anaconda.com/distribution/）选择**Linux**，之后右键Python3.7版本下的**64-Bit(x86)Installer**，复制链接地址
 
 随后在terminal中使用curl -O [链接]来下载文件，此处-O是使本地文件名和anaonda服务器上的文件名保持一致。
@@ -133,3 +133,4 @@ It simply works，一个简单的hello world例子
 
 
 
+ssh -i ~/.ssh/dls.pem root@139.196.40.202
