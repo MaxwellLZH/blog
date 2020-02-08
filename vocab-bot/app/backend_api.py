@@ -1,5 +1,10 @@
 from sqlalchemy.ext.declarative import DeclarativeMeta
 import json
+import random
+
+from app import db
+from app.models import Vocabulary, User, History
+
 
 
 class AlchemyEncoder(json.JSONEncoder):
@@ -22,9 +27,9 @@ class AlchemyEncoder(json.JSONEncoder):
 
 
 
-def get_words(category: str, n: int=20):
-	from app import db
-	from app.models import Vocabulary
-
+def get_n_words(category: str, n: int=20):
 	words = Vocabulary.query.filter_by(category=category).limit(n).all()
 	return json.dumps([w.to_dict() for w in words])
+
+
+

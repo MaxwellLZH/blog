@@ -42,16 +42,21 @@
     </b-navbar>
   </div>
 
-  <div id='w'>
-    <div v-for="(word, index) in words">
-        <b-card bg-variant="light">
-          <b-card-title>{{ word.word }}</b-card-title>
-          <b-list-group flush>
-            <b-list-group-item>{{ word.phonetic }}</b-list-group-item>
-            <b-list-group-item>{{ word.meaning }}</b-list-group-item>
-          </b-list-group>
-        </b-card>
-    <div>
+  <div id="words" class="container-fluid">
+    <div v-for="row in groupedWords" class="row row-cols-1 row-cols-md-4">
+
+        <div v-for="word in row" class="col mb-4">
+  
+          <b-card class="card h-100">
+            <b-card-title>{{ word.word }}</b-card-title>
+            <b-list-group flush>
+              <b-list-group-item>{{ word.phonetic }}</b-list-group-item>
+              <b-list-group-item>{{ word.meaning }}</b-list-group-item>
+            </b-list-group>
+          </b-card>
+      
+        </div>
+    </div>
   </div>
 
 
