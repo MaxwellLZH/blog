@@ -27,9 +27,10 @@ class AlchemyEncoder(json.JSONEncoder):
 
 
 
-def get_n_words(category: str, n: int=20):
-	words = Vocabulary.query.filter_by(category=category).limit(n).all()
-	return json.dumps([w.to_dict() for w in words])
-
+def get_n_words(category: str, n: str = '20'):
+	# words = Vocabulary.query.filter_by(category=category).limit(n).all()
+    words = Vocabulary.query.filter_by(category=category).limit(2000).all()
+    words = random.choices(words, k=int(n))    
+    return json.dumps([w.to_dict() for w in words])
 
 

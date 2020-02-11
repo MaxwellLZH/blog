@@ -57,9 +57,10 @@
           <b-dropdown-item>托福词汇</b-dropdown-item>
         </b-dropdown>
 
-        <b-input-group size="sm" prepend="展示单词数：" append="">
+        <b-button id='toggle' @click="updateWords" variant="outline-primary">换一批</b-button>
+      <!--   <b-input-group size="sm" prepend="展示单词数：" append="">
           <b-form-input value="20" class="text-right" type="number"></b-form-input>
-        </b-input-group>
+        </b-input-group> -->
 
       </b-button-toolbar>
     </div>

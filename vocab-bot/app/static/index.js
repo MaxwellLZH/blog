@@ -7,7 +7,13 @@ var app = new Vue({
 
 var appFilterBar = new Vue({
   el: "#filterbar",
-  data: {}
+  data: {},
+  methods: {
+    updateWords: function() {
+      console.log("Updating words")
+      getWords()
+    }
+  }
 })
 
 
@@ -31,23 +37,26 @@ var app2 = new Vue({
 })
 
 
-// Make a request for a user with a given ID
-axios.get('/backend/get_n_words', {
-  params: {
-    category: "TOFEL",
-    n: 20
-  }
-})
-  .then(function (response) {
-    console.log(response);
-    app2.words = response.data
+function getWords(category="TOFEL", n=20) {
+  // Make a request for a user with a given ID
+  axios.get('/backend/get_n_words', {
+    params: {
+      category: category,
+      n: n
+    }
   })
-  .catch(function (error) {
-    // handle error
-    console.log(error);
-  })
-  .then(function () {
-    // always executed
-  });
+    .then(function (response) {
+      console.log(response);
+      app2.words = response.data
+    })
+    .catch(function (error) {
+      // handle error
+      console.log(error);
+    })
+    .then(function () {
+      // always executed
+    });
+}
 
 
+getWords()
