@@ -5,6 +5,13 @@ var app = new Vue({
 })
 
 
+var appFilterBar = new Vue({
+  el: "#filterbar",
+  data: {}
+})
+
+
+
 var app2 = new Vue({
 	el: "#words",
 	data: {

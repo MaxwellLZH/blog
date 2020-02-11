@@ -42,23 +42,49 @@
     </b-navbar>
   </div>
 
-  <div id="words" class="container-fluid">
-    <div v-for="row in groupedWords" class="row row-cols-1 row-cols-md-4">
 
-        <div v-for="word in row" class="col mb-4">
-  
-          <b-card class="card h-100">
-            <b-card-title>{{ word.word }}</b-card-title>
-            <b-list-group flush>
-              <b-list-group-item>{{ word.phonetic }}</b-list-group-item>
-              <b-list-group-item>{{ word.meaning }}</b-list-group-item>
-            </b-list-group>
-          </b-card>
+  <div class="container-fluid">
+
+    <hr>
+
+    <div id='filterbar'>
       
-        </div>
-    </div>
-  </div>
+      <b-button-toolbar aria-label="Toolbar with button groups and dropdown menu">
+    
+        <b-dropdown class="mx-1" variant="outline-danger" right text="请选择难度">
+          <b-dropdown-item>四级词汇</b-dropdown-item>
+          <b-dropdown-item>六级词汇</b-dropdown-item>
+          <b-dropdown-item>托福词汇</b-dropdown-item>
+        </b-dropdown>
 
+        <b-input-group size="sm" prepend="展示单词数：" append="">
+          <b-form-input value="20" class="text-right" type="number"></b-form-input>
+        </b-input-group>
+
+      </b-button-toolbar>
+    </div>
+
+    <hr>
+
+
+    <div id="words">
+      <div v-for="row in groupedWords" class="row row-cols-1 row-cols-md-4">
+
+          <div v-for="word in row" class="col mb-4">
+    
+            <b-card class="card h-100">
+              <b-card-title>{{ word.word }}</b-card-title>
+              <b-list-group flush>
+                <b-list-group-item>{{ word.phonetic }}</b-list-group-item>
+                <b-list-group-item>{{ word.meaning }}</b-list-group-item>
+              </b-list-group>
+            </b-card>
+        
+          </div>
+      </div>
+    </div>
+
+  </div>
 
 {% endraw %}
 {% endblock %}
