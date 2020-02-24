@@ -34,3 +34,6 @@ def get_n_words(category: str, n: str = '20'):
     return json.dumps([w.to_dict() for w in words])
 
 
+
+
+

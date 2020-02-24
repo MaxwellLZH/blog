@@ -49,7 +49,7 @@ Windows系统怎么使用密钥请参考（https://help.aliyun.com/document_deta
 
 
 怎么将本地代码传到服务器上？
-scp -F ~/.ssh/config -r ./dls dls:/root
+scp -F ~/.ssh/config -r ./dls dls:/root/
 
 
 tree ./dls
