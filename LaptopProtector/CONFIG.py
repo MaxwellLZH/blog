@@ -1,5 +1,0 @@
-CONFIG = {
-	"SID":"ACca55084ad15ce067e53be3b3dce73f0b",
-	"TOKEN": "d2c788dfcdd0473ba9192efe999176c4",
-	"MY_NUMBER": "+15078586237"
-}
