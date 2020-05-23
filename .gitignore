@@ -117,3 +117,4 @@ dmypy.json
 **/*.pem
 **/.DS_Store
 vocab-bot/data/
+**/*.db

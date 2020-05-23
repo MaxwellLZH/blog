@@ -27,7 +27,6 @@ def get_competition_info(n=50) -> List[dict]:
 		'x-xsrf-token': 'CfDJ8LdUzqlsSWBPr4Ce3rb9VL_CXdYFqryoq_P5GlfUKZ16J2ueB0OF4deOc2u32nUWhJe1LHqEYOVptRG0cwnTTeCLgtpt-AdviT4Ds08jxk7kL0FFQoaIfg4FIQDnBDLCHSWEuB84sP-ZVSVjFsyNBP8',
 	}
 
-
 	params = {
 		'pageSize': n,
 		'pageToken': '001'
@@ -47,7 +46,7 @@ def get_competition_info(n=50) -> List[dict]:
 
 		# competition category is a list
 		categories = info.get('categories', [])
-		categories = [c['displayName'] for c in categories]
+		categories = ','.join([c['displayName'] for c in categories])
 		res['categories'] = categories
 
 		return res
@@ -63,8 +62,6 @@ def get_kernel_info(competition_id: int) -> dict:
 	resp = requests.get(url)
 	kernels = resp.json()
 
-	pprint(resp.json())
-
 	def parse_single_kernel_info(info: dict) -> dict:
 		res = {}
 
@@ -73,6 +70,7 @@ def get_kernel_info(competition_id: int) -> dict:
 		for k in copy_fields:
 			res[k] = info.get(k, None)
 
+		res['competitionId'] = competition_id
 		res['author'] = info['author']['userName']
 		res['notebookFullUrl'] = urljoin('https://www.kaggle.com/', info['scriptUrl'])
 	
@@ -82,10 +80,26 @@ def get_kernel_info(competition_id: int) -> dict:
 
 
 
+if __name__ == '__main__':
+	import os
+	from sqlalchemy import create_engine
+
+	if os.path.exists('./kaggle.db'):
+		os.remove('./kaggle.db')
+
+	engine = create_engine('sqlite:///kaggle.db')
+
+	competitions = get_competition_info(n=1000)
+
+	for c in tqdm(competitions):
+		# kernels.extend(get_kernel_info(c['id']))
+		df_kernels = pd.DataFrame(get_kernel_info(c['id']))
+		df_kernels.to_sql('kernel', engine, if_exists='append')
+
+	df_competitions = pd.DataFrame(competitions)
+	df_competitions.to_sql('competition', engine, if_exists='replace')
 
 
-
-print(get_kernel_info(6392)[1])
 
 
 # url = 'https://www.kaggle.com/'
