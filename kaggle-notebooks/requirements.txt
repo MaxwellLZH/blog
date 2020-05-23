@@ -1,0 +1,5 @@
+bottle
+requests
+pandas
+tqdm
+bs4
