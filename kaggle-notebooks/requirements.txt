@@ -3,3 +3,5 @@ requests
 pandas
 tqdm
 bs4
+dash
+plotly
