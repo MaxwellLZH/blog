@@ -11,7 +11,6 @@ import plotly.graph_objects as go
 engine = create_engine('sqlite:///kaggle.db')
 
 
-
 df_competition = pd.read_sql_table('competition', engine).rename(columns={'title': 'competitionName'})
 df_kernel = pd.read_sql_table('kernel', engine).sort_values('totalVotes', ascending=False)
 df_kernel = df_kernel.merge(df_competition[['id', 'competitionName', 'categories']], 
@@ -99,6 +98,7 @@ app.layout = html.Div(children=[
 	 Input('category', 'value')
 	])
 def update_competition_figure(category):
+	# TODO: need fix
 	d = df_competition[(df_competition.categories.isin(category))]
 	print(category, d.shape)
 
