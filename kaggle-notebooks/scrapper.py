@@ -102,9 +102,3 @@ if __name__ == '__main__':
 
 
 
-# url = 'https://www.kaggle.com/'
-# client = requests.session()
-# # Retrieve the CSRF token first
-# pprint(client.get(url).cookies)
-
-

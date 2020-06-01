@@ -7,7 +7,17 @@ import pandas as pd
 from sqlalchemy import create_engine
 import plotly.graph_objects as go
 
+from typing import List
+import os
+import subprocess
 
+
+if not os.path.exists('./kaggle.db'):
+	print('Downloading notebook information from Kaggle ...')
+	subprocess.call('python ./scrapper.py') 
+	print('Download complete :)')
+
+	
 engine = create_engine('sqlite:///kaggle.db')
 
 
@@ -36,7 +46,6 @@ language_selector = dcc.Dropdown(
 					) 
 
 
-
 category_options = ','.join(df_competition['categories'])
 category_options = list(set([c for c in category_options.split(',') if c.strip() != '']))
 
@@ -49,22 +58,6 @@ category_selector = dcc.Dropdown(
 					    multi=True,
 					) 
 
-
-competition_cols = ['competitionName', 'briefDescription', 'totalCompetitors', 'categories']
-kernel_cols = ['competitionName', 'title',  'author', 'totalVotes', 'languageName', 'notebookFullUrl']
-
-
-
-
-
-fig_kernel = go.Figure(data=[go.Table(
-    header=dict(values=kernel_cols,
-                fill_color='paleturquoise',
-                align='left'),
-    cells=dict(values=[df_kernel.head(100)[c] for c in kernel_cols],
-               fill_color='lavender',
-               align='left'))
-])
 
 
 
@@ -85,22 +78,55 @@ app.layout = html.Div(children=[
     	]),
 
 
-    dcc.Graph(id='fig_competition'),
+    dcc.Graph(id='fig-competition'),
 
-    dcc.Graph(id='fig_kernel', figure=fig_kernel)
+    dcc.Graph(id='fig-kernel')
     
 ])
 
 
+
+##########################################
+## All the backend filtering operations ##
+##########################################
+
+competition_cols = ['competitionName', 'briefDescription', 'totalCompetitors', 'categories']
+kernel_cols = ['competitionName', 'title',  'author', 'totalVotes', 'languageName', 'categories', 'notebookFullUrl']
+
+
+def _contains(s: pd.Series, keywords: List[str]):
+	""" Check if any of the keywords is contained in s 
+		s is seperated by comma 
+	"""
+	s = s.apply(lambda x: set(x.split(',')))
+	keywords = set(keywords)
+
+	return s.apply(lambda x: len(x & keywords) > 0)
+
+
+def debug(f):
+	""" Dummy debugger that prints function name and arguments """
+
+	def wrapped(*args, **kwargs):
+		print(f.__name__, args, kwargs)
+		return f(*args, **kwargs)
+
+	return wrapped()
+
+
+def as_list(l):
+	return [l] if not isinstance(l, list) else l
+
+
 @app.callback(
-	Output('fig_competition', 'figure'),
+	Output('fig-competition', 'figure'),
 	[
 	 Input('category', 'value')
 	])
-def update_competition_figure(category):
-	# TODO: need fix
-	d = df_competition[(df_competition.categories.isin(category))]
-	print(category, d.shape)
+def update_competition_figure(category: List[str]):
+	category = as_list(category)
+
+	d = df_competition[_contains(df_competition.categories, category)]
 
 	fig_competition = go.Figure(data=[go.Table(
 	    header=dict(values=competition_cols,
@@ -112,6 +138,31 @@ def update_competition_figure(category):
 	])
 
 	return fig_competition
+
+
+
+@app.callback(
+	Output('fig-kernel', 'figure'),
+	[
+	Input('language', 'value'),
+	Input('category', 'value')
+	]
+	)
+def update_kernel_figure(language: List[str], category: List[str]):
+	language, category = as_list(language), as_list(category)
+
+	d = df_kernel[(_contains(df_kernel.categories, category)) & (df_kernel.languageName.isin(language))]
+
+	fig_kernel = go.Figure(data=[go.Table(
+    header=dict(values=kernel_cols,
+                fill_color='paleturquoise',
+                align='left'),
+    cells=dict(values=[d.head(100)[c] for c in kernel_cols],
+               fill_color='lavender',
+               align='left'))
+	])
+
+	return fig_kernel
 
 
 
