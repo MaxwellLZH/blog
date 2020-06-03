@@ -60,30 +60,38 @@ category_selector = dcc.Dropdown(
 
 
 
+#####################
+##  Page Layout.   ##
+#####################
+
 
 external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 
 app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
 
 app.layout = html.Div(children=[
-    html.H1(children='Hello Dash'),
+    html.H1(children='Learn from top Kaggle notebooks!'),
 
-    html.Div(children='''
-        Dash: A web application framework for Python.
-    '''),
+    # html.Div([
+    # 	language_selector,
+    # 	category_selector
+    # 	]),
+   
+	html.Div(children=['Choose language:', language_selector], style={'magin-bottom': '10px'}),
+	html.Div(children=['Choose dataset category:', category_selector]),
 
-    html.Div([
-    	language_selector,
-    	category_selector
-    	]),
+    html.H3(children='List of competitions'),
 
+    dcc.Graph(id='fig-competition',
 
-    dcc.Graph(id='fig-competition'),
+    	style={'border-spacing': '10px'}
+    	),
+
+    html.H3(children='List of kaggle notebooks'),
 
     dcc.Graph(id='fig-kernel')
     
-])
-
+], style={'margin': '40px'})
 
 
 ##########################################

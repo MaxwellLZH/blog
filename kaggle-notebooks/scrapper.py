@@ -98,7 +98,3 @@ if __name__ == '__main__':
 
 	df_competitions = pd.DataFrame(competitions)
 	df_competitions.to_sql('competition', engine, if_exists='replace')
-
-
-
-
