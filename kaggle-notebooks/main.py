@@ -56,7 +56,7 @@ category_selector = dcc.Dropdown(
 					    ],
 					    value=['tabular data', 'text data'],
 					    multi=True,
-					) 
+					)
 
 
 
@@ -77,17 +77,21 @@ app.layout = html.Div(children=[
     # 	category_selector
     # 	]),
    
-	html.Div(children=['Choose language:', language_selector], style={'magin-bottom': '10px'}),
-	html.Div(children=['Choose dataset category:', category_selector]),
 
     html.H3(children='List of competitions'),
+
+	html.Div(children=['Choose dataset category:', category_selector]),
 
     dcc.Graph(id='fig-competition',
 
     	style={'border-spacing': '10px'}
     	),
 
+
     html.H3(children='List of kaggle notebooks'),
+
+	html.Div(children=['Choose language:', language_selector], style={'magin-bottom': '10px'}),
+
 
     dcc.Graph(id='fig-kernel')
     
@@ -135,6 +139,7 @@ def update_competition_figure(category: List[str]):
 	category = as_list(category)
 
 	d = df_competition[_contains(df_competition.categories, category)]
+	d = d.sort_values('totalCompetitors', ascending=False)
 
 	fig_competition = go.Figure(data=[go.Table(
 	    header=dict(values=competition_cols,
@@ -160,6 +165,7 @@ def update_kernel_figure(language: List[str], category: List[str]):
 	language, category = as_list(language), as_list(category)
 
 	d = df_kernel[(_contains(df_kernel.categories, category)) & (df_kernel.languageName.isin(language))]
+	d = d.sort_values('totalVotes', ascending=False)
 
 	fig_kernel = go.Figure(data=[go.Table(
     header=dict(values=kernel_cols,
@@ -171,7 +177,6 @@ def update_kernel_figure(language: List[str], category: List[str]):
 	])
 
 	return fig_kernel
-
 
 
 if __name__ == '__main__':
