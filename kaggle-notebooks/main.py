@@ -59,6 +59,17 @@ category_selector = dcc.Dropdown(
 					)
 
 
+competition_options = list(df_competition.competitionName.unique())
+competition_selector = dcc.Dropdown(
+						id='competition',
+					    options=[
+					    	{'label': l, 'value': l} for l in competition_options
+					    ],
+					    value=df_competition.sort_values('totalCompetitors', ascending=False)['competitionName'].head(3).tolist(),
+					    multi=True,
+					)
+
+
 
 #####################
 ##  Page Layout.   ##
@@ -90,6 +101,7 @@ app.layout = html.Div(children=[
 
     html.H3(children='List of kaggle notebooks'),
 
+    html.Div(children=['Choose competition', competition_selector], style={'margin-bottom': '10px'}),
 	html.Div(children=['Choose language:', language_selector], style={'magin-bottom': '10px'}),
 
 
@@ -103,7 +115,7 @@ app.layout = html.Div(children=[
 ##########################################
 
 competition_cols = ['competitionName', 'briefDescription', 'totalCompetitors', 'categories']
-kernel_cols = ['competitionName', 'title',  'author', 'totalVotes', 'languageName', 'categories', 'notebookFullUrl']
+kernel_cols = ['competitionName', 'title', 'totalVotes', 'languageName', 'notebookFullUrl']
 
 
 def _contains(s: pd.Series, keywords: List[str]):
@@ -158,13 +170,16 @@ def update_competition_figure(category: List[str]):
 	Output('fig-kernel', 'figure'),
 	[
 	Input('language', 'value'),
-	Input('category', 'value')
+	Input('category', 'value'),
+	Input('competition', 'value')
 	]
 	)
-def update_kernel_figure(language: List[str], category: List[str]):
-	language, category = as_list(language), as_list(category)
+def update_kernel_figure(language: List[str], category: List[str], competition: List[str]):
+	language, category, competition = as_list(language), as_list(category), as_list(competition)
 
-	d = df_kernel[(_contains(df_kernel.categories, category)) & (df_kernel.languageName.isin(language))]
+	d = df_kernel[(_contains(df_kernel.categories, category)) \
+					& (df_kernel.languageName.isin(language)) \
+					& (df_kernel.competitionName.isin(competition))]
 	d = d.sort_values('totalVotes', ascending=False)
 
 	fig_kernel = go.Figure(data=[go.Table(
