@@ -1,0 +1,13 @@
+1. 简要介绍Isolation Forest
+	- 直觉来看，
+	
+	scikit-learn的ensemble模块中实现了Isolation Forest的算法，代码也非常简洁明了。``IsolationForest`` 继承了BaseBagging类，每一个子模型都是随机选择分裂点的ExtraTreeRegressor
+	[Image]
+
+	IF可以处理高纬度数据，这对于传统的基于统计方法的检测是比较难处理的。但是当数据的维度特别高的时候（有非常多的特征值），IF的表现仍然会收到影响。对此作者在原文中提到可以先用峰度（kurtosis）来筛选一些特征
+	[Image kurtosis comparison]
+
+2. 改进版Extend Isolation Forest
+	
+
+3. 能够吸收用户反馈的异常检测方法 
